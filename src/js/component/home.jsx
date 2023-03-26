@@ -1,26 +1,36 @@
-import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, { useState, useEffect } from "react";
 
 //create your first component
 const Home = () => {
+	const [tareas, setTareas] = useState([])
+	const url= 'https://assets.breatheco.de/apis/fake/todos/user/mgcode'
+
+	useEffect(() => {
+		fetch(url)
+		  .then(response => response.json())
+		  .then(data => setTareas(data))
+		  .catch(error => console.log(error, "DANGER"));
+	  }, []);
+	  
+
 	return (
 		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			<h1> Todo List API</h1>
+            <input
+              type="text"
+              placeholder="What do you need to do?"
+              name="label"
+              className="form-control"
+             ></input>
+			  
+			{tareas.map((elm, index) => {
+  return <li>{elm?.label}</li>;
+})}
+			
 		</div>
 	);
 };
 
 export default Home;
+
+
